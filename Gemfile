@@ -55,9 +55,7 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-# 2022/05/17 Heroku実行不具合により書き換え
-# gem 'net-smtp'
-gem 'net-smtp', require: false
+gem 'net-smtp'
 
 # 2022/05/10 bootstrap導入 ← 池上
 gem "cssbundling-rails"
