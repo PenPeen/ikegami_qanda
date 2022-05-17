@@ -1,4 +1,3 @@
-// package.json npmライブラリ管理
 {
   "name": "qanda-v6",
   "private": true,
@@ -22,7 +21,6 @@
   "devDependencies": {
     "webpack-dev-server": "^3"
   },
-  // Bootstrap
   "scripts": {
     "build:css": "sass ./app/assets/stylesheets/application.bootstrap.scss ./app/assets/builds/application.css --no-source-map --load-path=node_modules"
   }
