@@ -76,3 +76,5 @@ end
 group :production do
   gem 'pg'  # 本番用ではPostgreSQLを使用する
 end
+
+gem 'net-pop'
