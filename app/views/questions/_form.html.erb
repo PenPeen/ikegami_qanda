@@ -1,0 +1,65 @@
+<!--質問の登録フォームテンプレート-->
+
+<!--バリデーションエラー-->
+<% if @question.errors.any? %>
+  <div class="alert alert-warning col col-md-4 p-0">
+      <ul class="mb-0">
+      <% @question.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+      <% end %>
+      </ul>
+  </div>
+<% end %>
+
+<!--フォーム-->
+<%= form_with model: @question do |form| %>
+  
+  <div class="row">
+    <div class="mb-3 col col-md-4">
+      <%= form.label :title, 'タイトル' %><br>
+      <%= form.text_field :title, autofocus: true, class: 'form-control form-control-sm' %> <!--自動フォーカス-->
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="mb-3 col-md-4">
+      <%= form.label :name, '投稿者' %><br>
+      <!--新規登録時⇒非表示-->
+      <% if mode=='edit' then %>
+        <%= form.text_field :name, class: 'form-control form-control-sm', readonly: true %>
+      <% else %>
+        <%= form.text_field :name, class: 'form-control form-control-sm', value: current_user.name, readonly: true %>
+      <% end %>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="mb-3 col-md-6">
+      <%= form.label :content, '質問内容' %><br>
+      <div style="height:150px;"><!--高さを個別指定-->
+      <%= form.text_area :content, class:'form-control form-control-sm h-100 ' %> 
+      </div>
+    </div>
+  </div>
+  
+  <!--回答ステータス-->
+  <!--新規登録時⇒非表示-->
+  <% if mode=='edit' then %>
+  <div class="row">
+  <% else %>
+  <div class="row d-none">
+  <% end %>
+    
+    <div class="mb-3 col-md-4">
+      <%= form.label :progress %><br>
+      <%= form.select :progress, [['回答待ち','回答待ち'],['解決済み','解決済み']],{},class: 'form-control form-control-sm' %>
+    </div>
+  </div>
+  
+  <div class="mb-3">
+    <%= form.submit :button, class: "btn btn-outline-primary", value: '送信' %>
+  </div>
+  
+<% end %>
+
+<%= link_to 'TOPへ戻る', questions_index_path %>

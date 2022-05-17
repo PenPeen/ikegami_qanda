@@ -1,0 +1,195 @@
+<!--タイトル-->
+<%= render partial: 'questions/title' %>
+
+<div class="container">
+  <h2 class="text-success mb-3">質問詳細</h2>
+  
+  <!-- 注記（ステータス別） -->
+  <div class="mb-3">
+    <% if @question.progress == '回答待ち' %>
+      <h5><span class="badge bg-danger">回答受付中！</span></h5>
+        
+    <% elsif @question.progress == '解決済み' %>
+        <div class="alert alert-secondary text-secondary fw-bold col-sm-8 col-md-6 col-lg-5">
+          <p class="mb-0">この質問は解決済みです。</p>
+          <p class="mb-0">回答の受付は終了しました。ご協力ありがとうございました。</p>
+        </div>
+    <% end %>
+  </div>
+  
+  <!--各項目-->
+  <div class="mb-4">
+    <div class="col-sm-8 col-md-6 col-lg-5">
+      <p class="text-success fw-bolder mb-0">タイトル</p>
+      <p class="border"><%= @question.title %></p>
+    </div>
+    
+    <div class="col-sm-8 col-md-6 col-lg-5">
+      <p class="text-success fw-bolder mb-0">投稿者</p>
+      <p class="border"><%= @question.name %></p>
+    </div>
+    
+    <div class="col-sm-10 col-md-8 col-lg-6">
+      <p class="text-success fw-bolder mb-0">内容</p>
+      <p class="border" style="white-space: pre-wrap;"><%= @question.content %></p> <!--改行表示-->
+    </div>
+    
+    <div class="col-sm-8 col-md-6 col-lg-5 mb-3">
+      <p class="text-success fw-bolder mb-1">進捗</p>
+      <div style="height:30px">
+        <% if @question.progress=='回答待ち' %>
+          <div class="badge bg-primary d-flex align-items-center h-100">回答待ち</div>
+        <% else %>
+          <div class="badge bg-secondary d-flex align-items-center h-100">解決済み</div>
+        <% end %>
+      </div>
+    </div>
+  
+    <!--質問の削除-->
+    <!--自身が作成した質問のみ、ボタン表示-->
+    <% if current_user.nil? == false %>
+      <% if @question.user_id == current_user.id %> 
+        <div class="mb-1">
+          <button type="button" class="link-style-btn" data-bs-toggle="modal" data-bs-target="#Modal-delete">
+            この質問を削除する
+          </button>
+          
+          <div class="modal fade" id="Modal-delete" tabindex="-1" aria-labelledby="ModalLabel-delete" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="ModalLabel-delete">質問を削除しますか？</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  削除した質問は、元に戻すことはできません。
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">いいえ</button>
+                  <%= button_to 'はい', question_path(@question), method: :delete, class: "btn btn-primary" %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+　
+  <!--回答一覧-->
+  <div class="mb-5">
+    <% if !@answers.empty? %>
+      <h2>回答一覧</h2>
+      <ul>
+        <% @answers.each do |answer| %>
+          <li class="mb-3">
+            <div class="mb-1"><%= answer.name %></div>
+            <div class="mb-1"><%= answer.content %></div>
+          
+            <% if user_signed_in? %>
+              <% if current_user.admin? %>
+                <!--回答毎に異なるID設定（Modalの挙動を分けるため）-->
+                <button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop-<%= answer.id %>">削除</button>
+                <div id="question_modal">
+                    <div class="modal fade" id="staticBackdrop-<%= answer.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog" id="book_modal"> 
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Are you sure？</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            Delete, OK?
+                          </div>
+                          
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                            <%= button_to 'OK！', question_answer_path(@question, answer), method: :delete, class: 'btn btn-secondary btn-sm'%>  
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              <% end %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  
+    <div class="mb-1"></div>
+    
+    <!--質問を解決済みへと変更-->
+    
+    <!--表示条件-->
+    <!--管理者ユーザである-->
+    <!--ステータスが解決済みでない && 自身が作成 && 回答が1件以上-->
+    <% if @question.progress != '解決済み' && @answers.count > 0  %>
+      <% if current_user.nil? == false %>
+        <% if @question.user_id == current_user.id || current_user.admin? %>
+        
+          <div class="mb-4">
+            <div>
+              <button type="button" class="link-style-btn" data-bs-toggle="modal" data-bs-target="#Modal-resolve">
+                質問が解決しました
+              </button>
+              
+              <div class="modal fade" id="Modal-resolve" tabindex="-1" aria-labelledby="ModalLabel-resolve" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="ModalLabel-resolve">この質問は無事解決しましたか？</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      ※解決済みにした質問は、元に戻すことはできません！
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">いいえ</button>
+                      <%= button_to 'はい', update_resolve_question_path(@question), {class: "btn btn-primary"} %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+  
+  
+  <div class="mb-3"></div>
+  
+  <!--回答投稿フォーム-->
+  <!--表示条件-->
+  <!--質問が解決していない && ログインユーザー-->
+  <% if @question.progress != '解決済み' &&  user_signed_in? %>
+    <h4 class="text-secondary mt-3">回答投稿</h4>
+    <%= form_with model: [@question,@answer] do |form| %>
+      <div class="col-sm-8 col-md-6 col-lg-5 mb-3">
+        <%= form.label :name %><br>
+        <%= form.text_field :name, class: 'form-control form-control-sm', value: current_user.name, readonly: true %>
+      </div>
+      
+      <div class="col-sm-8 col-md-6 col-lg-5 mb-3"> 
+        <%= form.label :content, 'comment' %><br>
+        <%= form.text_area :content, class: 'form-control form-control-sm' %>
+      </div>
+      
+      <div class="col-sm-8 col-md-6 col-lg-5 mb-3">
+        <%= form.submit class: 'btn btn-secondary' %>
+      </div>
+    <% end %>
+    
+  <% end %>
+  
+  <!--ログイン案内アラート-->
+  <% if @question.progress != '解決済み' &&  user_signed_in? == false %>
+    <span class="alert alert-warning">質問の回答はログインすることで可能となります。</span>
+  <% end %>
+  
+  <div class="my-5"></div>
+  <%= button_to 'TOPへ戻る',questions_index_path,method: :get, class: 'btn btn-outline-secondary mb-5' %>
+</div>

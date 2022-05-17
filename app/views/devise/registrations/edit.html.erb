@@ -1,0 +1,86 @@
+<div class="container">
+  <div class="border border-3 py-3 mt-5">
+
+    <h2 class="text-primary text-center">ユーザー情報の編集</h2>
+    
+    <div class="d-flex justify-content-center">
+    
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "col-md-6"}) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+        
+      　<div class="field mb-3">
+          <%= f.label :name %><br />
+          <%= f.text_field :name, autofocus: true, class: 'form-control'  %>
+        </div>
+        
+        <div class="field mb-3">
+          <%= f.label :email %><br />
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control'  %>
+        </div>
+      
+        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+        <% end %>
+      
+        <div class="field mb-3">
+          <%= f.label :password %><span> ※パスワードを変更時のみ</span><br />
+          <%= f.password_field :password, autocomplete: "new-password", class: 'form-control'  %>
+          <% if @minimum_password_length %>
+            <em class="fw-bold"><%= @minimum_password_length %>文字以上</em>
+          <% end %>
+        </div>
+      
+        <div class="field mb-3">
+          <%= f.label :password_confirmation %><br />
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control'  %>
+        </div>
+      
+        <div class="field mb-3">
+          <%= f.label :current_password %> (変更を確認するには、現在のパスワードが必要です)<br />
+          <%= f.password_field :current_password, autocomplete: "current-password", class: 'form-control'  %>
+        </div>
+      
+        <div class="actions mb-5">
+          <%= f.submit "Update", class: 'form-control btn btn-primary' %>
+        </div>
+      
+        <% end %>
+      </div>
+      
+      <div class="d-flex justify-content-center">
+        <h3 class="text-danger">アカウントの削除</h3>
+      </div>
+      <div class="d-flex justify-content-center align-items-center">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          アカウントの削除
+        </button>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">アカウントの削除</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                非常に寂しいです...
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-dizzy" viewBox="0 0 16 16">
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                  <path d="M9.146 5.146a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 1 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 0-.708zm-5 0a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 1 1 .708.708l-.647.646.647.646a.5.5 0 1 1-.708.708L5.5 7.207l-.646.647a.5.5 0 1 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 0-.708zM10 11a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
+                </svg><br>
+                本当にアカウントを削除しますか？
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary me-3" data-bs-dismiss="modal">いいえ</button>
+                <%= button_to "はい", registration_path(resource_name), method: :delete, class: 'btn btn-secondary' %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <%= link_to "Back", :back %>
+  </div>
+</div>

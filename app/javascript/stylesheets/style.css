@@ -1,0 +1,60 @@
+/*Webpackerで読み込み*/
+
+/*全体フォント*/
+body {
+  font-family: 'Yu Gothic UI','MeiryoUI', 'Meiryo', sans-serif;
+}
+
+/*タイトル*/
+.title-bold{
+  font-size:2rem;
+  font-weight: 900;
+}
+
+/*ナビバー*/
+.navbar {
+  padding:0;
+}
+
+.navbar-main{
+  background-color: #EBEBEB;
+}
+
+/*bootstrap ハンバーガーメニュー色*/
+.navbar-toggler{
+  background-color: #cccccc;
+}
+
+.nav-item{
+  width:150px;
+  border: 0.5px solid #d3d3d3;
+}
+
+.nav-item-first{
+  border-left: none;
+}
+
+.nav-item-last{
+  border-right: none;
+}
+
+/*ブレークポイント　992px*/
+@media screen and (max-width: 992px) {
+  .nav-item{
+    border:none; /* border除去 */ 
+    justify-content: flex-start !important; /* 並び順 左寄せ ※bootstrap justify-content-center上書き */
+  }
+}
+
+/*リンク風ボタン*/
+button.link-style-btn{
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: #0033cc;
+}
+
+button.link-style-btn:hover{
+  text-decoration: underline;
+  color: #002080;
+}

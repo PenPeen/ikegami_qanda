@@ -1,0 +1,111 @@
+<!--質問一覧表示テンプレート-->
+<div class="table-responsive">
+    <table class="table table-hover table-bordered small align-middle"
+    style="width:1100px; margin-left: auto;margin-right: auto;">
+        <thead class="table-secondary">
+            <tr>
+                <th class="text-center" style="width:25%">タイトル</th>
+                <th class="text-center" style="width:10%">質問者</th>
+                <th class="text-center" style="width:35%">質問</th>
+                <th class="text-center" style="width:10%">回答進捗</th>
+                
+                <!--ログインユーザによって列数変更（管理者=>3,管理者以外=>1）-->
+                <% if user_signed_in? && current_user.admin == true  %>
+                    <th colspan=3></th>
+                <% else %>
+                    <th style="width:10%"></th>
+                <% end %>
+            </tr>
+        </thead>
+        
+        <!--レコード件数分 データ表示-->
+        <% @questions.each do |question| %>
+            <tr>
+                <!--タイトル-->
+                <td>
+                    <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center">
+                            <!--登録1日以内の質問 強調表示-->
+                            <% seconds = Time.now - question.created_at %>
+                            <% if((seconds / 1.days).floor < 1) %>
+                                <svg class="text-info me-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                  <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                </svg>
+                            <% end %>
+                            
+                            <!--自身の質問 強調表示-->
+                            <% if user_signed_in? %>
+                                <% if current_user.id == question.user_id %>
+                                    <span class="badge bg-danger me-1">あなたの質問</span>
+                                <% end %>
+                            <% end %>
+                        </div>
+                        
+                        <%= question.title %>
+                    </div>
+                </td>
+                
+                <!--投稿者-->
+                <td><%= question.name %></td>
+                <td style="white-space: pre-wrap;"><%= question.content %></td> <!--textareaの改行表示-->
+                
+                <!--回答ステータス（Badges）-->
+                <td class="text-center">
+                    <% if question.progress=='回答待ち' then %>
+                        <h6 class="mb-0"><span class="badge rounded-pill bg-primary">回答待ち</span></h6>
+                    <% else %>
+                        <h6 class="mb-0"><span class="badge rounded-pill bg-secondary">解決済み</span></h6>
+                    <% end %>
+                </td>
+                
+                <!--詳細ボタン-->
+                <td class="text-center"><%= button_to '詳細',question_path(question),method: :get, class: 'btn btn-outline-success btn-sm' %></td>
+                
+                <!--編集ボタン-->
+                <!--管理者ユーザー以外には表示しない。-->
+                    <% if user_signed_in? && current_user.admin? %> 
+                        <td class="text-center">
+                            <%= button_to '編集',edit_question_path(question),method: :get, class: 'btn btn-outline-success btn-sm' %>
+                        </td>
+                    <% end %>
+                
+                <!-- 削除ボタン（Modal） -->
+                <!--管理者以外には表示しない-->
+                <% if user_signed_in? %>
+                    <% if current_user.admin == true %>
+                        <td class="text-center">
+                            
+                            <!-- Button trigger modal -->
+                            <!--各ModalでIDが異なるように設定！-->
+                            <button type="button" class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop-<%= question.id %>">削除</button>
+                            
+                            <div id="question_modal">
+                                <div class="modal fade" id="staticBackdrop-<%= question.id %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                  <div class="modal-dialog" id="book_modal"> 
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Are you sure？</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body">
+                                        Delete, OK?
+                                      </div>
+                                      
+                                      <!--footer-->
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <%= button_to '削除',question_path(question), method: :delete, class: 'btn btn-primary'%>
+                                      </div>
+                                      
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </td>
+                    <% end %>
+                <% end %>
+            </tr>
+        <% end %>
+    </table>
+</div>

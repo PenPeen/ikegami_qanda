@@ -1,0 +1,15 @@
+<!--タイトル-->
+<%= render partial: 'title' %>
+
+<div class="container">
+    <!--見出し-->
+    <%= render partial: 'caption', locals:{caption: '質問一覧'} %>
+
+    <!--質問一覧-->
+    <%= render partial: 'table' %>
+    
+    <!--kaminari-->
+    <div class="d-flex justify-content-center">
+        <%= paginate @questions, theme: 'bootstrap-5', class: 'text-success'%>
+    </div>
+</div>

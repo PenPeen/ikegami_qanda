@@ -1,0 +1,68 @@
+<!--サイトに関する紹介ページ-->
+<%= render partial: 'questions/title' %>
+
+<div class="container">
+  <div class="mb-5">
+    <h1 class="mb-5">アプリケーションの紹介</h1>
+    <h4>
+      開発者：池上
+    </h4>
+    <p>
+        Ruby on Railsの学習の一環として、開発。<br>
+        使用言語：Ruby、HTML、CSS、JavaScript<br>
+        フレームワーク：Ruby on Rails、Bootstrap...<br>
+        ライブラリ：devise,toastr...<br>
+        開発期間：20日
+    </p>
+  </div>
+  
+  <div class="mb-5">
+    <h4>アプリケーションについて</h4>
+    <p class="mb-1">
+      基本的なQ&Aサイトとなっております。<br>
+      質問の作成及び、回答にはアカウント作成が必要です。
+    </p>
+      <ul>
+        <li>質問の投稿はTOPページの「新しく質問をする」から行えます。</li>
+        <li>あなたが作成した質問は、回答があり次第、詳細画面から回答ステータスの変更が可能となります。</li>
+        <li>あなたが作成した質問は、詳細画面から削除が可能です。</li>
+        <li>あなたが作成した質問にはバッジ表示がされます。</li>
+        <li>質問への回答は、各質問の詳細画面から行えます。</li>
+        <li>作成後、24時間以内の質問は！マークで強調表示されます。</li>
+      </ul>
+  </div>
+    
+  <div class="mb-5">
+      <h4>アクセス権について</h4>
+      
+      <span>ゲストユーザー</span>
+      <ul>
+        <li>データを変更しない処理（TOPページの閲覧・詳細の閲覧・検索等...）</li>
+      </ul>
+      
+      <span>ログインユーザー</span>
+      <ul>
+        <li>
+          Create,Read,Update<br>
+          DELETEは自身が作成した質問のみ可！
+        </li>
+      </ul>
+      
+      <span>管理者ユーザー</span>
+      <ul>
+        <li>全ての処理CRUD処理</li>
+      </ul>
+      
+      <span>※許可されていない処理の実行時は、TOPページへのリダイレクトを発生させる</span>
+  </div>
+  
+  <div class="mb-5">
+    <h4>問い合わせ先</h4>
+    <p>
+      テストは実施済みですが、予期せぬエラーが発生する可能性がございます。<br>
+      その際は、お手数をおかけしますが、以下のアドレスまでご連絡をお願いいたします。<br>
+      <a href="mailto:ikegami.systems@gmail.com">ikegami.systems@gmail.com</a>
+    </p>
+  </div>
+  
+</div>

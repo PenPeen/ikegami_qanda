@@ -1,0 +1,10 @@
+<!--devise flashメッセージ-->
+<!--JSライブラリ[Toastr]を使用しているため、使用無し-->
+<div class="container">
+  <% if !notice.blank? then %>
+    <p class="notice alert alert-primary mt-1"><%= notice %></p>
+  <% end %>
+  <% if !alert.blank? then %>
+    <p class="alert alert alert-danger mt-1"><%= alert %></p>
+  <% end %>
+</div>

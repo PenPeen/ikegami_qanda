@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Qanda</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <!--pack_tag → Webpacker管理-->
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag "material-dashboard", media: "all", 'style': "reload" %>
+  </head>
+
+  <body>
+    <%= yield %>
+  
+    <!--toastr flash-->
+    <% if flash.any? %>
+      <script type="text/javascript">
+  
+        //toastr オプション 
+        toastr.options = {
+          "positionClass": "toast-bottom-right"
+        };
+        
+        // flashタグと表示メッセージを関連付け
+        <% flash.each do |key, value| %>
+          <% key = "success" if key == "notice" %>
+          <% key = "error" if key == "alert" %>
+          <% key = "warning" if key == "warning" %>
+          <% key = "info" if key == "info" %>
+          toastr['<%= key %>']('<%= value %>');
+        <% end %>
+      </script>
+    <% end %>
+    
+  </body>
+</html>
+
+
