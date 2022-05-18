@@ -2,29 +2,9 @@
   <div class="border border-3 py-3 mt-5">
     
   <h2 class="text-primary text-center mb-3">
+  <%= image_tag 'logo.png', class: 'img-fluid me-3 rounded-circle border border-white border-5', size: '70x70' %>
     IKE Q&A <span class="text-danger">~公開環境~</span>
   </h2>
-  
-  <div class="text-center">
-    <p>
-      <a class="btn btn-outline-dark me-3" data-bs-toggle="collapse" href="#admincollapse" role="button" aria-expanded="false" aria-controls="collapseExample">
-        管理者でログインしたい
-      </a>
-      <button class="btn btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#usercollapse" aria-expanded="false" aria-controls="collapseExample">
-        一般ユーザでログインしたい
-      </button>
-    </p>
-    <div class="collapse" id="admincollapse">
-      <div class="card card-body">
-        Eメールに「admin@admin」, パスワードに「password」を入力してください。
-      </div>
-    </div>
-    <div class="collapse" id="usercollapse">
-      <div class="card card-body">
-        Eメールに「user@user」, パスワードに「password」を入力してください。
-      </div>
-    </div>
-  </div>
   
   <div class="d-flex justify-content-center">
     
@@ -50,6 +30,30 @@
       <div class="actions mb-3">
         <%= f.submit "Log in", class: 'btn btn-primary'  %>
       </div>
+      
+        <div class="text-center">
+    <p>
+      <row>
+        <button class="btn btn-outline-dark me-3 col col-md-5 mb-2 mb-md-0" data-bs-toggle="collapse" href="#admincollapse" role="button" aria-expanded="false" aria-controls="collapseExample">
+          管理者でログインしたい
+        </button>
+        <button class="btn btn-outline-dark col col-md-5" type="button" data-bs-toggle="collapse" data-bs-target="#usercollapse" aria-expanded="false" aria-controls="collapseExample">
+          一般ユーザでログインしたい
+        </button>
+      </row>
+    </p>
+    <div class="collapse" id="admincollapse">
+      <div class="card card-body">
+        Eメールに「admin@admin」, パスワードに「password」を入力してください。
+      </div>
+    </div>
+    <div class="collapse" id="usercollapse">
+      <div class="card card-body">
+        Eメールに「user@user」, パスワードに「password」を入力してください。
+      </div>
+    </div>
+  </div>
+      
       <%= render "devise/shared/links" %>
       
       <!--ゲストユーザ用-->
