@@ -1,24 +1,19 @@
-# README
+# Name
+* IKE_Q&A Site
+* 質問回答アプリケーション
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Requirement
+* devise => ログイン機能
+* kaminari => ページング機能
+* toastr => トーストの表示
 
-Things you may want to cover:
+# Usage
+* 質問の投稿 => TOPページの「新しく質問をする」から行えます。
 
-* Ruby version
+* 質問の削除 => 自身が作成した質問については、詳細画面からの削除が可能です。
 
-* System dependencies
+* 質問への回答 => ログイン状態であれば、他人の質問への回答が可能です。
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# Author
+* 池上 寛登
+* ikegami.systems@gmail.com
